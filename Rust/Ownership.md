@@ -12,3 +12,4 @@ The stack and heap are parts of memory available to a program at runtime, The st
 - There can only be one owner at a time.
 - When the owner goes out of scope, the value will be dropped.
 ##### Variable Scope
+A scope is the range within a program for which an item is valid 
