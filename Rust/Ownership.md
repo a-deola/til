@@ -13,3 +13,12 @@ The stack and heap are parts of memory available to a program at runtime, The st
 - When the owner goes out of scope, the value will be dropped.
 ##### Variable Scope
 A scope is the range within a program for which an item is valid 
+
+##### References
+References are a flexible means to refer to a value without taking ownership of it, they are written `&a` if  `a` has a type T then &a has type &T.
+Using a reference on a value is called borrowing the value. 
+There are two types of references:
+- A _shared_ reference: The referent can be read but not mutated.
+- A _mutable_ reference: The referent can be read and modified, there can't be other ref to a value with a mutable reference, following the **multiple reader or single writer principle**. Denoted by `&mut`
+
+De referencing is done using the `*` operator

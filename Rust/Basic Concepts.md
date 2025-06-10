@@ -29,145 +29,7 @@ fn main() {
 }
 ```
 
-### Data Types
-Rust is a _**statically typed**_ language, however the compiler can usually infer types based on values and how they are used. There are two data types subsets: **Scalar** and **Compound** 
-
-#### Scalar Types 
-A scalar type represents a single value. Rust has four primary scalar types: integer, floating-point number, boolean and character.
-
-##### Integer
-An integer is a number without a fractional component. Built-in integer types in Rust are: 
-
-| Length  | Signed | Unsigned |
-| ------- | ------ | -------- |
-| 8-bit   | i8     | u8       |
-| 16-bit  | i16    | u16      |
-| 32-bit  | i32    | u32      |
-| 64-bit  | i64    | u64      |
-| 128-bit | i128   | u128     |
-| arch    | isize  | usize    |
-
-_Signed_ and _unsigned_ refer to whether it’s possible for the number to be negative. Each signed variant can store numbers from -(2<sup> n-1 </sup>) to 2<sup> n-1 </sup> - 1 inclusive and each unsigned variant can store numbers from 0 to 2<sup>n</sup> -1, where _n_ is the number of bits that variant uses. 
-	Additionally, the `isize` and `usize` types depend on the architecture of the computer your program is running on, which is denoted in the table as _**arch**_: 64 bits if you’re on a 64-bit architecture and 32 bits if you’re on a 32-bit architecture.
-###### Integer Literals
-| Number Literals | Example     |
-| --------------- | ----------- |
-| Decimal         | 98_000      |
-| Hex             | 0xff        |
-| Octal           | 0o77        |
-| Binary          | 0b1111_0000 |
-| Byte(u8 only)   | b 'A'       |
-###### Integer Overflow 
->[!note]
- > **if a _u8_ variable type that holds value between _0 and 255_ is assigned a value outside that range, an _integer overflow_ would occur**
-
-In _**debug**_ mode rust includes a checks for _**integer overflow**_ that causes a _**panic**_ at _**runtime**_ but in release mode the if an overflow occurs, rust performs _**two's complement wrapping**_; values greater than the maximum value the type can hold _**wrap around**_ to the minimum value the type can hold: for a u8,256 becomes 0 and so on.
-To handle overflows, some methods provided by the standard library:
-- Wrap in all modes with the `wrapping_*` methods, such as `wrapping_add`.
-- Return the `None` value if there is overflow with the `checked_*` methods.
-- Return the value and a boolean indicating whether there was overflow with the `overflowing_*` methods.
-- Saturate at the value’s minimum or maximum values with the `saturating_*` methods.
-##### Floating-Point Types
-Rust has two primitive types for floating-point numbers which are numbers for representing decimal points, the `f32` and `f64`. The `f32` is capable of more precision, all floating-point types are signed.
-```rust
-fn main() {
-    let x = 2.0; // f64
-
-    let y: f32 = 3.0; // f32
-}
 ```
-##### Numeric Operations 
-Rust supports the basic mathematical operations  for all the number types: addition, subtraction, multiplication, division, and modulo. Integer division truncates toward zero to the nearest integer.
-```rust 
-fn main() {
-    // addition
-    let sum = 5 + 10;
-
-    // subtraction
-    let difference = 95.5 - 4.3;
-
-    // multiplication
-    let product = 4 * 30;
-
-    // division
-    let quotient = 56.7 / 32.2;
-    let truncated = -5 / 3; // Results in -1
-
-    // remainder
-    let remainder = 43 % 5;
-}
-```
-
-##### Boolean Type
-A boolean type in rust has two possible values: `true` and `false`, they are one byte in size, they are specified using `bool`. 
-```rust 
-fn main() {
-    let t = true;
-
-    let f: bool = false; // with explicit type annotation
-```
-
-##### Character Type
-Rust's `Char` type is it's most primitive alphabetic type, It is four bytes in size and represents a **Unicode Scalar Value**, so it can represent Chinese or Japanese characters, emoji, accented letters, and zero-width spaces.
-```rust
-fn main() {
-    let c = 'z';
-    let z: char = 'ℤ'; // with explicit type annotation
-    let heart_eyed_cat = '😻';
-}
-```
-
->[!note] 
->**the `char` is written with single quotes as opposed to strings which use double quotes. **
-
-#### Compound Types
-Compound types can group multiple values into one type, Rust has two primitive compound types: _**tuples**_  and  _**arrays**_ 
-
-##### Tuple Type
-A tuple is a general way of grouping together a number of values with a variety of types into one compound type, they have a fixed length: once declared they cannot grow or shrink. 
-```rust
-fn main() {
-    let tup: (i32, f64, u8) = (500, 6.4, 1);
-}
-```
-Values within a tuple can be destructured by matching the pattern or using a period(.) and the index of the value to be accessed.
-```rust 
-fn main() {
-    let tup = (500, 6.4, 1);
-	// destructured
-    let (x, y, z) = tup;
-    // dot notation
-    let five_hundred = tup.0
-    println!("The value of y is: {y}");
-}
-```
-An empty tuple is called a _**unit**_ represented by `()`
-
-##### Array Type
-Another way to have a collection of multiple values is with an _**array**_. Unlike a tuple, every element of an array must have the same type. Unlike arrays in some other languages, arrays in Rust have a fixed length.
-```rust
-fn main() {
-    let array = [1, 2, 3, 4, 5];
-    //implicitly typed
-    let a: [i32; 5] = [1, 2, 3, 4, 5];
-    //array with the same value
-    let a = [3; 5];
-
-}
-```
-Element of an array can be accessed using indexing:
-```rust
-fn main() {
-    let a = [1, 2, 3, 4, 5];
-
-    let first = a[0];
-    let second = a[1];
-}
-```
->[!note]
->**Rust's memory safety would panic and exit a program with a runtime error if an index past the end of the array is accessed**
-
-
 ### Functions
 In Rust function are defined with the `fn` keyword followed by the function name and a set of parentheses which hold parameters(if any) while the function body is within a set of curly brackets, the most important is the `main` function which is the entry point for most programs.
 ```rust
@@ -199,7 +61,7 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
 }
 ```
 
-#### Statements and Expressions
+### Statements and Expressions
 Function bodies are made up of statements and optionally end in an expression.
 - **Statements** are instructions that perform some action and do not return a value, and as such cannot be assigned to another variable with a `let` statement.
 - **Expressions** evaluate to a resultant value.
@@ -215,7 +77,7 @@ let x = (let y = 6); // would error
 >[!info]
 >**An expression does not include ending semicolons, else it becomes a statement and it will not return a value**
 
-#### Functions With Return Values
+### Functions With Return Values
 Functions can return values to the code that call them, the type of a return value must be declared after `->`. In Rust, a value can be returned early by using the `return` keyword however, most functions return the last expression implicitly.
 ```rust 
 fn five() -> i32 {
@@ -417,3 +279,112 @@ fn main() {
     }
 }
 ```
+
+
+### Matching
+This is a powerful and flexible way to handle different conditions, using the `match` keyword. This is more flexible than an `if` expression in that the condition does not have to be boolean and pattern matching is possible.
+
+##### Match Syntax
+```rust
+match VALUE {
+	PATTERN => EXPRESSION,
+	PATTERN => EXPRESSION,
+	PATTERN => EXPRESSION,
+}
+```
+
+#### Traits
+They are a way to define the behaviour that a type has and can share with other types, **behaviour** is the methods we can call on the type. Trait definitions are a way to group method signatures together to define a set of behaviors necessary for that particular purpose.
+##### Defining a trait
+```rust
+pub trait Summary {
+fn summarize(&self) -> String;
+}
+```
+##### Implementing a trait
+
+```rust
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+```
+
+##### Default Implementations
+
+```r
+pub trait Summary {
+    fn summarize(&self) -> String {
+        String::from("(Read more...)")
+    }
+}
+```
+
+##### Using traits (polymorphism)
+
+```rust
+pub fn notify(item: &impl Summary) {
+    println!("Breaking news! 
+```
+
+### Generics
+Generics are a way to parameterise across datatypes, such as we do below with `Option<T>` where `T` is the parameter that can be replaced by a datatype such as `i32`. The purpose of generics is to abstract away the datatype, and by doing that avoid duplication.
+
+```rust
+struct Point<T> { x: T, y: T, } 
+fn main() { let my_point = Point { x: 5, y: 6 }; }
+```
+
+### Iterators
+
+The iterator in Rust is optimised in that it has no effect until it is needed
+
+```rust
+let names = vec!["Bob", "Frank", "Ferris"];
+let names_iter = names.iter();
+```
+
+This creates an iterator for us that we can then use to iterate through the collection using `.next()`
+
+```rust
+    fn iterator_demonstration() {
+        let v1 = vec![4, 7, 9];
+        let mut v1_iter = v1.iter();
+
+        assert_eq!(v1_iter.next(), Some(&4));
+        assert_eq!(v1_iter.next(), Some(&7));
+        assert_eq!(v1_iter.next(), Some(&9));
+        assert_eq!(v1_iter.next(), None);
+    }
+```
+
+## Map and Collect methods
+
+In Rust, `map` and `collect` are commonly used together for transforming vectors through functional programming patterns.
+
+## `map` Method
+
+`map` is called on iterators and transforms each element according to a provided closure:
+
+```rust
+let numbers = vec![1, 2, 3, 4];
+let doubled: Vec<i32> = numbers
+    .iter()           // Create iterator
+    .map(|x| x * 2)   // Transform each element
+    .collect();       // Collect back into Vec
+// Result: [2, 4, 6, 8]
+```
+
+Key points about `map`:
+
+- Returns an iterator (lazy evaluation - no work done until consumed)
+- Takes a closure that defines the transformation
+- Doesn't modify the original vector
